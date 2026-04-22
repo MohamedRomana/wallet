@@ -47,7 +47,6 @@ class _OnBoardingState extends State<OnBoarding> {
           bottom: false,
           top: false,
           child: Scaffold(
-            backgroundColor: AppColors.secondray,
             body: state is GetIntroLoading
                 ? const Center(
                     child: CircularProgressIndicator(color: AppColors.primary),
