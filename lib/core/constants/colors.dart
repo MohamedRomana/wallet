@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
-  static const Color primary = Color(0xffFF8134);
-  static const Color secondray = Color(0xffD9D9D9);
+  static const Color primary = Colors.blue;
+  static const Color secondray = Color(0xFF8B5CF6);
   static const Color third = Colors.black;
   static const Color fourth = Colors.black;
   static const Color darkRed = Color(0xffBE1622);

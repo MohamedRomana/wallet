@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wallet/core/widgets/app_text.dart';
 import 'package:wallet/gen/fonts.gen.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../core/widgets/app_router.dart';
+import '../on_boarding/on_boarding.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -253,7 +255,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   }
 
   Future<void> _customNavigation() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 5));
 
     if (!mounted) return;
 
@@ -271,5 +273,6 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     //               AppRouter.navigateAndFinish(context, const HomeLayout()),
     //             }
     //     : AppRouter.navigateAndFinish(context, const OnBoarding());
+    AppRouter.navigateAndFinish(context, const OnBoarding());
   }
 }
