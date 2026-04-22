@@ -119,7 +119,7 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _buildItem(
-                      icon: 'assets/svg/goal.svg',
+                      icon: 'assets/svg/walet.svg',
                       isActive: cubit.bottomNavIndex == 0,
                       onTap: () => cubit.changebottomNavIndex(0),
                     ),
@@ -127,7 +127,7 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
                     const SizedBox(),
 
                     _buildItem(
-                      icon: 'assets/svg/track.svg',
+                      icon: 'assets/svg/pay.svg',
                       isActive: cubit.bottomNavIndex == 1,
                       onTap: () => cubit.changebottomNavIndex(1),
                     ),
@@ -193,7 +193,7 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
                     ),
 
                     _buildItem(
-                      icon: 'assets/svg/pay.svg',
+                      icon: 'assets/svg/track.svg',
                       isActive: cubit.bottomNavIndex == 3,
                       onTap: () => cubit.changebottomNavIndex(3),
                     ),
@@ -201,7 +201,7 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
                     const SizedBox(),
 
                     _buildItem(
-                      icon: 'assets/svg/walet.svg',
+                      icon: 'assets/svg/goal.svg',
                       isActive: cubit.bottomNavIndex == 4,
                       onTap: () => cubit.changebottomNavIndex(4),
                     ),

@@ -103,8 +103,8 @@ class _CustomOnBoardingButtonsState extends State<CustomOnBoardingButtons>
                     text: "Get Started",
 
                     onTap: () {
-                      CacheHelper.setLang('ar');
-                      context.setLocale(const Locale('ar'));
+                      CacheHelper.setLang('en');
+                      context.setLocale(const Locale('en'));
                       AppRouter.navigateAndFinish(context, HomeLayout());
                     },
                   ),
