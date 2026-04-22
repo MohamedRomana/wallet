@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_direct-left" data-name="vuesax/linear/direct-left" transform="translate(-364 -252)">
+    <g id="direct-left">
+      <path id="Vector" d="M1.71,6.484,13.3.384a3.2,3.2,0,0,1,4.35,4.26l-1.62,3.24a3.2,3.2,0,0,0,0,2.86l1.62,3.24a3.2,3.2,0,0,1-4.35,4.26l-11.59-6.1A3.2,3.2,0,0,1,1.71,6.484Z" transform="translate(367 254.686)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(388 276) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

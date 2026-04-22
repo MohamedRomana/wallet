@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_clipboard-export" data-name="vuesax/linear/clipboard-export" transform="translate(-300 -252)">
+    <g id="clipboard-export">
+      <path id="Vector" d="M2,4H6C8,4,8,3,8,2,8,0,7,0,6,0H2C1,0,0,0,0,2S1,4,2,4Z" transform="translate(308 254)" fill="none" stroke="#94b49f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M11,17.98H6c-5,0-6-2-6-6v-6C0,1.42,1.67.18,5,0" transform="translate(303 256.02)" fill="none" stroke="#94b49f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0C3.33.18,5,1.41,5,5.98v5" transform="translate(316 256.02)" fill="none" stroke="#94b49f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,3V0H3" transform="translate(315 268)" fill="none" stroke="#94b49f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M5.96,5.96,0,0" transform="translate(315.04 268.04)" fill="none" stroke="#94b49f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(300 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

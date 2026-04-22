@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25.5" height="20.5" viewBox="0 0 25.5 20.5">
+  <g id="cash" transform="translate(0.75 0.417)">
+    <path id="icon:cash" d="M21.6,19H2.4A2.391,2.391,0,0,1,0,16.624V2.374A2.39,2.39,0,0,1,2.4,0H21.6A2.39,2.39,0,0,1,24,2.374v14.25A2.391,2.391,0,0,1,21.6,19ZM7.2,3.563A3.585,3.585,0,0,1,3.6,7.124v4.75a3.586,3.586,0,0,1,3.6,3.563h9.6a3.586,3.586,0,0,1,3.6-3.563V7.124a3.586,3.586,0,0,1-3.6-3.562ZM12,11.874A2.375,2.375,0,1,1,14.4,9.5,2.391,2.391,0,0,1,12,11.874Z" transform="translate(0 0.333)" fill="none" stroke="#ecb390" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+  </g>
+</svg>

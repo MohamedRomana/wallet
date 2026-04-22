@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_22548" data-name="Group 22548" transform="translate(-13 -30)">
+    <g id="vuesax_linear_house" data-name="vuesax/linear/house" transform="translate(13 30)">
+      <g id="house">
+        <path id="Vector" d="M0,0H20" transform="translate(2 22)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,19.47.05,7.44A2.015,2.015,0,0,1,.82,5.87l7-5.45a2.011,2.011,0,0,1,2.46,0l7,5.44a1.99,1.99,0,0,1,.77,1.58V19.47" transform="translate(2.95 2.53)" fill="none" stroke="#fff" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M3.5,0h-2A1.5,1.5,0,0,0,0,1.5V5H5V1.5A1.5,1.5,0,0,0,3.5,0Z" transform="translate(9.5 17)" fill="none" stroke="#fff" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M3,3.5H1a1,1,0,0,1-1-1V1A1,1,0,0,1,1,0H3A1,1,0,0,1,4,1V2.5A1,1,0,0,1,3,3.5Z" transform="translate(6.5 10.25)" fill="none" stroke="#fff" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-5" data-name="Vector" d="M3,3.5H1a1,1,0,0,1-1-1V1A1,1,0,0,1,1,0H3A1,1,0,0,1,4,1V2.5A1,1,0,0,1,3,3.5Z" transform="translate(13.5 10.25)" fill="none" stroke="#fff" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-6" data-name="Vector" d="M4.43,3,4.4,0H0" transform="translate(14.57 4)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-7" data-name="Vector" d="M0,0H24V24H0Z" fill="none" opacity="0"/>
+      </g>
+    </g>
+  </g>
+</svg>
