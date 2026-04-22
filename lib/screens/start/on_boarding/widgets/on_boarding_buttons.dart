@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wallet/core/widgets/app_router.dart';
+import 'package:wallet/screens/features/home_layout/home_layout.dart';
 import '../../../../core/cache/cache_helper.dart';
 import '../../../../core/widgets/app_text.dart';
 
@@ -99,9 +101,11 @@ class _CustomOnBoardingButtonsState extends State<CustomOnBoardingButtons>
                 : _buildButton(
                     key: const ValueKey("start"),
                     text: "Get Started",
+
                     onTap: () {
                       CacheHelper.setLang('ar');
                       context.setLocale(const Locale('ar'));
+                      AppRouter.navigateAndFinish(context, HomeLayout());
                     },
                   ),
           ),

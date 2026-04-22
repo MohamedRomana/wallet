@@ -8,6 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../gen/fonts.gen.dart';
 import '../../../generated/locale_keys.g.dart';
+import '../../../screens/features/home_layout/accounts/accounts.dart';
+import '../../../screens/features/home_layout/add/add.dart';
+import '../../../screens/features/home_layout/budget/budget.dart';
+import '../../../screens/features/home_layout/goals/goals.dart';
+import '../../../screens/features/home_layout/home/home.dart';
 import '../../cache/cache_helper.dart';
 import '../../constants/colors.dart';
 import '../../constants/contsants.dart';
@@ -19,11 +24,19 @@ class AppCubit extends Cubit<AppState> {
   static AppCubit get(BuildContext context) =>
       BlocProvider.of<AppCubit>(context);
 
+ int bottomNavIndex = 0;
+  List<Widget> bottomNavScreens = [
+    Home(),
+    Accounts(),
+    Add(),
+    Budget(),
+    Goals()
+  ];
+ void changebottomNavIndex(int index) async {
+    bottomNavIndex = index;
+    emit(ChangeBottomNav());
+  }
 
-  // void changeProvbottomNavIndex(int index) async {
-  //   bottomProviderNavIndex = index;
-  //   emit(ChangeBottomNav());
-  // }
 
   double? lat = 0;
   double? lng = 0;
@@ -264,10 +277,7 @@ class AppCubit extends Cubit<AppState> {
     emit(IsSecureIcon());
   }
 
-  // void changebottomNavIndex(index) async {
-  //   bottomNavIndex = index;
-  //   emit(ChangeBottomNav());
-  // }
+ 
 
   int changeLangIndex = 0;
   void changeLangIndexs({required int index}) {
