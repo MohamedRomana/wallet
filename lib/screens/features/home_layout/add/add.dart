@@ -42,6 +42,38 @@ class _AddState extends State<Add> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        height: 50.h,
+        width: 361.w,
+        margin: EdgeInsetsDirectional.only(
+          start: 20.w,
+          end: 20.w,
+          bottom: 100.h,
+        ),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: _generateColor(_tabController.index),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+          ),
+          child: AppText(
+            text:
+                "Save ${_tabController.index == 0
+                    ? "Income"
+                    : _tabController.index == 1
+                    ? "Expense"
+                    : "Transfer"}",
+            color: Colors.white,
+            size: 16.sp,
+            fontWeight: FontWeight.w700,
+            family: FontFamily.bahijJannaBold,
+          ),
+        ),
+      ),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -120,17 +152,13 @@ class _AddState extends State<Add> with TickerProviderStateMixin {
           Positioned(
             top: 150.h,
             child: Container(
-              height: 580.h,
+              height: 600.h,
               width: 361.w,
               margin: EdgeInsets.only(bottom: 120.h),
               padding: EdgeInsets.all(20.r),
               child: TabBarView(
                 controller: _tabController,
-                children: [
-                  IncomeFields(),
-                  ExpenseFields(),
-                  TransferFields(),
-                ],
+                children: [IncomeFields(), ExpenseFields(), TransferFields()],
               ),
             ),
           ),
@@ -139,4 +167,3 @@ class _AddState extends State<Add> with TickerProviderStateMixin {
     );
   }
 }
-

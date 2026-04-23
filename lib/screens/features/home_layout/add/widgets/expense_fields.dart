@@ -193,7 +193,7 @@ class ExpenseFields extends StatelessWidget {
           Container(
             width: 361.w,
             padding: EdgeInsets.all(16.r),
-            margin: EdgeInsets.only(top: 20.h),
+            margin: EdgeInsets.only(top: 20.h, bottom: 100.h),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20.r),
