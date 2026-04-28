@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/flutter_percent_indicator.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/app_text.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -30,28 +31,28 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
 
   List goals = [
     {
-      "title": "Emergency Fund",
+      "title": "Food",
       "target": "\$1,200.00",
       "remaining": "3 months left",
       "progress": '25%',
-      'icon': 'assets/svg/emerg.svg',
-      'prog_double' : 25
+      'icon': 'assets/svg/burger.svg',
+      'prog_double': 25,
     },
     {
-      "title": "Vacation Trip",
-      "target": "\$3,500.00",
-      "remaining": "6 months left",
-      "progress": '40%',
-      'icon': 'assets/svg/vacation.svg',
-      'prog_double' : 40
+      "title": "Rent",
+      "target": "\$4,000.00",
+      "remaining": "3 months left",
+      "progress": '50%',
+      'icon': 'assets/svg/house.svg',
+      'prog_double': 50,
     },
     {
-      "title": "New Laptop",
-      "target": "\$1,800.00",
-      "remaining": "2 months left",
-      "progress": '60%',
-      'icon': 'assets/svg/lap.svg',
-      'prog_double' : 60
+      "title": "Entertainment",
+      "target": "\$800.00",
+      "remaining": "3 months left",
+      "progress": '10%',
+      'icon': 'assets/svg/game.svg',
+      'prog_double': 10,
     },
   ];
 
@@ -305,55 +306,81 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                   ),
                                 ],
                               ),
-                              child: Row(
+                              child: Column(
                                 children: [
-                                  // أيقونة مع انيميشن "التنطيط"
-                                  SvgPicture.asset(
-                                    goals[index]['icon'],
-                                    width: 28.w,
-                                    height: 28.w,
-                                  ),
-                                  SizedBox(width: 16.w),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
                                     children: [
-                                      AppText(
-                                        text: goals[index]['title'],
-                                        size: 16.sp,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600,
+                                      // أيقونة مع انيميشن "التنطيط"
+                                      SvgPicture.asset(
+                                        goals[index]['icon'],
+                                        width: 28.w,
+                                        height: 28.w,
                                       ),
-                                      SizedBox(height: 4.h),
-                                      AppText(
-                                        text: 'Budget: ${goals[index]["target"]}',
-                                        size: 14.sp,
-                                        color: Colors.black54,
+                                      SizedBox(width: 16.w),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text: goals[index]['title'],
+                                            size: 16.sp,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          SizedBox(height: 4.h),
+                                          AppText(
+                                            text:
+                                                'Budget: ${goals[index]["target"]}',
+                                            size: 14.sp,
+                                            color: Colors.black54,
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      // الرقم مع الأنيميشن العددي
+                                      AnimatedDefaultTextStyle(
+                                        duration: const Duration(
+                                          milliseconds: 500,
+                                        ),
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w,
+                                            vertical: 6.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.greenAccent.withAlpha(
+                                              50,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              12.r,
+                                            ),
+                                          ),
+
+                                          child: Text(
+                                            '${goals[index]["progress"]}',
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  // الرقم مع الأنيميشن العددي
-                                  AnimatedDefaultTextStyle(
-                                    duration: const Duration(milliseconds: 500),
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 12.w,
-                                        vertical: 6.h,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.greenAccent.withAlpha(50),
-                                        borderRadius: BorderRadius.circular(
-                                          12.r,
-                                        ),
-                                      ),
-
-                                      child: Text('${goals[index]["progress"]}'),
+                                  SizedBox(height: 16.h),
+                                  Center(
+                                    child: LinearPercentIndicator(
+                                      width: 310.w,
+                                      lineHeight: 10.h,
+                                      percent:
+                                          goals[index]['prog_double'] / 100,
+                                      barRadius: Radius.circular(7.r),
+                                      backgroundColor: Colors.grey,
+                                      progressColor: Colors.black,
+                                      animation: true,
+                                      animateFromLastPercent: true,
+                                      animateToInitialPercent: true,
                                     ),
                                   ),
                                 ],

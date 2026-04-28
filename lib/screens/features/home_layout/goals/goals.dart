@@ -36,15 +36,15 @@ class _GoalsState extends State<Goals> with TickerProviderStateMixin {
       "remaining": "3 months left",
       "progress": '25%',
       'icon': 'assets/svg/emerg.svg',
-      'prog_double' : 25
+      'prog_double': 25,
     },
     {
       "title": "Vacation Trip",
       "target": "\$3,500.00",
       "remaining": "6 months left",
       "progress": '40%',
-      'icon': 'assets/svg/vacation.svg',
-      'prog_double' : 40
+      'icon': 'assets/svg/vact.svg',
+      'prog_double': 40,
     },
     {
       "title": "New Laptop",
@@ -52,7 +52,7 @@ class _GoalsState extends State<Goals> with TickerProviderStateMixin {
       "remaining": "2 months left",
       "progress": '60%',
       'icon': 'assets/svg/lap.svg',
-      'prog_double' : 60
+      'prog_double': 60,
     },
   ];
 
@@ -359,13 +359,15 @@ class _GoalsState extends State<Goals> with TickerProviderStateMixin {
                                           Row(
                                             children: [
                                               AppText(
-                                                text: 'Target: ${goals[index]["target"]}',
+                                                text:
+                                                    'Target: ${goals[index]["target"]}',
                                                 size: 12.sp,
                                                 color: Colors.black54,
                                               ),
                                               SizedBox(width: 12.w),
                                               AppText(
-                                                text: '${goals[index]["remaining"]}',
+                                                text:
+                                                    '${goals[index]["remaining"]}',
                                                 size: 12.sp,
                                                 color: Colors.black54,
                                               ),
@@ -398,7 +400,9 @@ class _GoalsState extends State<Goals> with TickerProviderStateMixin {
                                             ),
                                           ),
 
-                                          child: Text('${goals[index]["progress"]}'),
+                                          child: Text(
+                                            '${goals[index]["progress"]}',
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -408,7 +412,8 @@ class _GoalsState extends State<Goals> with TickerProviderStateMixin {
                                     child: LinearPercentIndicator(
                                       width: 310.w,
                                       lineHeight: 10.h,
-                                      percent: goals[index]['prog_double'] / 100,
+                                      percent:
+                                          goals[index]['prog_double'] / 100,
                                       barRadius: Radius.circular(7.r),
                                       backgroundColor: Colors.grey,
                                       progressColor: Colors.black,
