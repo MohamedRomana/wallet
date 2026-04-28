@@ -28,6 +28,33 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
   late final Animation<double> _iconFloatAnimation;
   late final Animation<double> _cardPulseAnimation;
 
+  List goals = [
+    {
+      "title": "Emergency Fund",
+      "target": "\$1,200.00",
+      "remaining": "3 months left",
+      "progress": '25%',
+      'icon': 'assets/svg/emerg.svg',
+      'prog_double' : 25
+    },
+    {
+      "title": "Vacation Trip",
+      "target": "\$3,500.00",
+      "remaining": "6 months left",
+      "progress": '40%',
+      'icon': 'assets/svg/vacation.svg',
+      'prog_double' : 40
+    },
+    {
+      "title": "New Laptop",
+      "target": "\$1,800.00",
+      "remaining": "2 months left",
+      "progress": '60%',
+      'icon': 'assets/svg/lap.svg',
+      'prog_double' : 60
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -245,7 +272,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
               ),
               AnimationLimiter(
                 child: ListView.separated(
-                  itemCount: 10,
+                  itemCount: goals.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsetsDirectional.only(
@@ -282,7 +309,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                 children: [
                                   // أيقونة مع انيميشن "التنطيط"
                                   SvgPicture.asset(
-                                    'assets/svg/burger.svg',
+                                    goals[index]['icon'],
                                     width: 28.w,
                                     height: 28.w,
                                   ),
@@ -292,14 +319,14 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                         CrossAxisAlignment.start,
                                     children: [
                                       AppText(
-                                        text: 'Food & Dining',
+                                        text: goals[index]['title'],
                                         size: 16.sp,
                                         color: Colors.black87,
                                         fontWeight: FontWeight.w600,
                                       ),
                                       SizedBox(height: 4.h),
                                       AppText(
-                                        text: 'Budget: \$1,200.00',
+                                        text: 'Budget: ${goals[index]["target"]}',
                                         size: 14.sp,
                                         color: Colors.black54,
                                       ),
@@ -326,7 +353,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                         ),
                                       ),
 
-                                      child: Text('75%'),
+                                      child: Text('${goals[index]["progress"]}'),
                                     ),
                                   ),
                                 ],
