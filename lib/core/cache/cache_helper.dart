@@ -7,6 +7,7 @@ class CacheHelper {
   // static const _token = 'token';
   static const _deviceToken = 'deviceToken';
   static const _type = 'type';
+  static const _darkMode = 'darkMode';
 
   static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
@@ -61,6 +62,14 @@ class CacheHelper {
 
   static String getUserType() {
     return _preferences.getString(_type) ?? '';
+  }
+
+  static Future<void> setDarkMode(bool? darkMode) async {
+    await _preferences.setBool(_darkMode, darkMode ?? false);
+  }
+
+  static bool getDarkMode() {
+    return _preferences.getBool(_darkMode) ?? false;
   }
 
   static Future<void> removeUserId(String key) async {

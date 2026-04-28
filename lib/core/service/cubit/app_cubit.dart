@@ -24,19 +24,18 @@ class AppCubit extends Cubit<AppState> {
   static AppCubit get(BuildContext context) =>
       BlocProvider.of<AppCubit>(context);
 
- int bottomNavIndex = 0;
+  int bottomNavIndex = 0;
   List<Widget> bottomNavScreens = [
     Home(),
     Accounts(),
     Add(),
     Budget(),
-    Goals()
+    Goals(),
   ];
- void changebottomNavIndex(int index) async {
+  void changebottomNavIndex(int index) async {
     bottomNavIndex = index;
     emit(ChangeBottomNav());
   }
-
 
   double? lat = 0;
   double? lng = 0;
@@ -76,7 +75,7 @@ class AppCubit extends Cubit<AppState> {
           backgroundColor: AppColors.secondray,
           title: Text(
             LocaleKeys.select_image_source.tr(),
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.primary,
               fontFamily: FontFamily.bahijJannaBold,
             ),
@@ -134,7 +133,7 @@ class AppCubit extends Cubit<AppState> {
           backgroundColor: AppColors.secondray,
           title: Text(
             LocaleKeys.select_image_source.tr(),
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.primary,
               fontFamily: FontFamily.bahijJannaBold,
             ),
@@ -192,7 +191,7 @@ class AppCubit extends Cubit<AppState> {
           backgroundColor: AppColors.secondray,
           title: Text(
             LocaleKeys.select_image_source.tr(),
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.primary,
               fontFamily: FontFamily.bahijJannaBold,
             ),
@@ -276,8 +275,6 @@ class AppCubit extends Cubit<AppState> {
     isSecureLogIn = isSecuree;
     emit(IsSecureIcon());
   }
-
- 
 
   int changeLangIndex = 0;
   void changeLangIndexs({required int index}) {
@@ -539,5 +536,4 @@ class AppCubit extends Cubit<AppState> {
       emit(UploadImagesFailure());
     }
   }
-
 }

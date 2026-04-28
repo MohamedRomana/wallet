@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wallet/core/widgets/app_text.dart';
 import 'package:wallet/gen/fonts.gen.dart';
+import '../../../../core/cache/cache_helper.dart';
 import '../../../../core/constants/colors.dart';
 import 'widgets/Transfer_fields.dart';
 import 'widgets/expense_fields.dart';
@@ -38,13 +39,13 @@ class _AddState extends State<Add> with TickerProviderStateMixin {
   Color _generateColor(int index) {
     switch (index) {
       case 0:
-        return Colors.blue;
+        return CacheHelper.getDarkMode() ? Color(0xff21378E) : Colors.blue;
       case 1:
         return Colors.red;
       case 2:
         return Colors.green;
       default:
-        return Colors.blue;
+        return CacheHelper.getDarkMode() ? Color(0xff21378E) : Colors.blue;
     }
   }
 

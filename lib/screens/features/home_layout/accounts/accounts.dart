@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart'; // مكتبة الأنيميشن
 import 'package:wallet/core/widgets/app_text.dart';
+import '../../../../core/cache/cache_helper.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../gen/fonts.gen.dart';
 
@@ -282,7 +283,9 @@ class _AccountsState extends State<Accounts> with TickerProviderStateMixin {
                                 vertical: 16.h,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: CacheHelper.getDarkMode()
+                                    ? Color(0xff1E2939)
+                                    : Colors.white,
                                 borderRadius: BorderRadius.circular(20.r),
                                 boxShadow: [
                                   BoxShadow(
@@ -337,14 +340,18 @@ class _AccountsState extends State<Accounts> with TickerProviderStateMixin {
                                       AppText(
                                         text: 'Main Checking',
                                         size: 16.sp,
-                                        color: Colors.black87,
+                                        color: CacheHelper.getDarkMode()
+                                            ? Colors.white
+                                            : Colors.black87,
                                         fontWeight: FontWeight.w600,
                                       ),
                                       SizedBox(height: 4.h),
                                       AppText(
                                         text: 'Bank Account',
                                         size: 14.sp,
-                                        color: Colors.black54,
+                                        color: CacheHelper.getDarkMode()
+                                            ? Colors.white54
+                                            : Colors.black54,
                                       ),
                                     ],
                                   ),
@@ -354,7 +361,9 @@ class _AccountsState extends State<Accounts> with TickerProviderStateMixin {
                                     duration: const Duration(milliseconds: 500),
                                     style: TextStyle(
                                       fontSize: 16.sp,
-                                      color: Colors.black87,
+                                      color: CacheHelper.getDarkMode()
+                                          ? Colors.white
+                                          : Colors.black87,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     child: Text('\$5,678.90'),
@@ -374,7 +383,6 @@ class _AccountsState extends State<Accounts> with TickerProviderStateMixin {
     );
   }
 }
-
 
 class _AnimatedGlassIcon extends StatefulWidget {
   final Widget child;
@@ -439,7 +447,6 @@ class _AnimatedGlassIconState extends State<_AnimatedGlassIcon>
     );
   }
 }
-
 
 class _RunningBorderCard extends StatelessWidget {
   final Widget child;

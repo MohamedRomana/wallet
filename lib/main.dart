@@ -57,15 +57,24 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (BuildContext context, Widget? child) {
         return MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) => AppCubit()),
-          ],
+          providers: [BlocProvider(create: (context) => AppCubit())],
           child: GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: MaterialApp(
               theme: ThemeData(
                 fontFamily: FontFamily.bahijJannaRegular,
                 scaffoldBackgroundColor: Colors.white,
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: AppColors.primary,
+                  selectionColor: AppColors.primary.withOpacity(0.3),
+                  selectionHandleColor: AppColors.primary,
+                ),
+              ),
+              darkTheme: ThemeData(
+                fontFamily: FontFamily.bahijJannaRegular,
+                scaffoldBackgroundColor: CacheHelper.getDarkMode()
+                    ? Colors.black
+                    : Colors.white,
                 textSelectionTheme: TextSelectionThemeData(
                   cursorColor: AppColors.primary,
                   selectionColor: AppColors.primary.withOpacity(0.3),

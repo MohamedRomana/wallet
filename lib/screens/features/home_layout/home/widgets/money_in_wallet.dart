@@ -6,6 +6,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wallet/core/widgets/app_router.dart';
+import 'package:wallet/screens/features/settings/settings.dart';
 
 import '../../../../../core/constants/colors.dart';
 import '../../../../../core/widgets/app_text.dart';
@@ -182,15 +184,20 @@ class _MoneyInWalletState extends State<MoneyInWallet>
                       ],
                     ),
                   ),
-                  _AnimatedGlassIcon(
-                    size: 40.w,
-                    backgroundColor: Colors.white.withAlpha(50),
-                    child: RotationTransition(
-                      turns: _gearController,
-                      child: Icon(
-                        Icons.settings,
-                        color: Colors.white,
-                        size: 20.w,
+                  InkWell(
+                    onTap: () {
+                      AppRouter.navigateTo(context, Settings());
+                    },
+                    child: _AnimatedGlassIcon(
+                      size: 40.w,
+                      backgroundColor: Colors.white.withAlpha(50),
+                      child: RotationTransition(
+                        turns: _gearController,
+                        child: Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                          size: 20.w,
+                        ),
                       ),
                     ),
                   ),

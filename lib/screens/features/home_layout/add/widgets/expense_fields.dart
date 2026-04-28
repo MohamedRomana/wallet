@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/cache/cache_helper.dart';
 import '../../../../../core/constants/colors.dart';
 import '../../../../../core/widgets/app_input.dart';
 import '../../../../../core/widgets/app_text.dart';
@@ -19,7 +20,9 @@ class ExpenseFields extends StatelessWidget {
             width: 361.w,
             padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: CacheHelper.getDarkMode()
+                  ? Color(0xff1E2939)
+                  : Colors.white,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(color: Colors.grey.withAlpha(100), width: 1.r),
             ),
@@ -28,7 +31,9 @@ class ExpenseFields extends StatelessWidget {
               children: [
                 AppText(
                   text: "Amount",
-                  color: Colors.black,
+                  color: CacheHelper.getDarkMode()
+                      ? Colors.white
+                      : Colors.black,
                   size: 16.sp,
                   fontWeight: FontWeight.w700,
                   family: FontFamily.bahijJannaBold,
@@ -51,7 +56,9 @@ class ExpenseFields extends StatelessWidget {
             padding: EdgeInsets.all(16.r),
             margin: EdgeInsets.only(top: 20.h),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: CacheHelper.getDarkMode()
+                  ? Color(0xff1E2939)
+                  : Colors.white,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(color: Colors.grey.withAlpha(100), width: 1.r),
             ),
@@ -60,7 +67,9 @@ class ExpenseFields extends StatelessWidget {
               children: [
                 AppText(
                   text: "Category",
-                  color: Colors.black,
+                  color: CacheHelper.getDarkMode()
+                      ? Colors.white
+                      : Colors.black,
                   size: 16.sp,
                   fontWeight: FontWeight.w700,
                   family: FontFamily.bahijJannaBold,
@@ -89,7 +98,9 @@ class ExpenseFields extends StatelessWidget {
                         child: AppText(
                           text: 'Salary',
                           size: 14.sp,
-                          color: Colors.black,
+                          color: CacheHelper.getDarkMode()
+                              ? Colors.white
+                              : Colors.black,
                           family: FontFamily.bahijJannaRegular,
                         ),
                       ),
@@ -104,7 +115,9 @@ class ExpenseFields extends StatelessWidget {
             padding: EdgeInsets.all(16.r),
             margin: EdgeInsets.only(top: 20.h),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: CacheHelper.getDarkMode()
+                  ? Color(0xff1E2939)
+                  : Colors.white,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(color: Colors.grey.withAlpha(100), width: 1.r),
             ),
@@ -113,7 +126,9 @@ class ExpenseFields extends StatelessWidget {
               children: [
                 AppText(
                   text: "Account",
-                  color: Colors.black,
+                  color: CacheHelper.getDarkMode()
+                      ? Colors.white
+                      : Colors.black,
                   size: 16.sp,
                   fontWeight: FontWeight.w700,
                   family: FontFamily.bahijJannaBold,
@@ -136,7 +151,9 @@ class ExpenseFields extends StatelessWidget {
             padding: EdgeInsets.all(16.r),
             margin: EdgeInsets.only(top: 20.h),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: CacheHelper.getDarkMode()
+                  ? Color(0xff1E2939)
+                  : Colors.white,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(color: Colors.grey.withAlpha(100), width: 1.r),
             ),
@@ -145,7 +162,9 @@ class ExpenseFields extends StatelessWidget {
               children: [
                 AppText(
                   text: "Date",
-                  color: Colors.black,
+                  color: CacheHelper.getDarkMode()
+                      ? Colors.white
+                      : Colors.black,
                   size: 16.sp,
                   fontWeight: FontWeight.w700,
                   family: FontFamily.bahijJannaBold,
@@ -167,7 +186,7 @@ class ExpenseFields extends StatelessWidget {
                       lastDate: DateTime(2100),
                       builder: (context, child) => Theme(
                         data: Theme.of(context).copyWith(
-                          colorScheme: const ColorScheme.light(
+                          colorScheme: ColorScheme.light(
                             primary: AppColors.secondray,
                             onPrimary: Colors.white,
                             surface: Colors.white,
@@ -196,7 +215,9 @@ class ExpenseFields extends StatelessWidget {
             padding: EdgeInsets.all(16.r),
             margin: EdgeInsets.only(top: 20.h, bottom: 100.h),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: CacheHelper.getDarkMode()
+                  ? Color(0xff1E2939)
+                  : Colors.white,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(color: Colors.grey.withAlpha(100), width: 1.r),
             ),
@@ -205,7 +226,9 @@ class ExpenseFields extends StatelessWidget {
               children: [
                 AppText(
                   text: "Note (optional)",
-                  color: Colors.black,
+                  color: CacheHelper.getDarkMode()
+                      ? Colors.white
+                      : Colors.black,
                   size: 16.sp,
                   fontWeight: FontWeight.w700,
                   family: FontFamily.bahijJannaBold,

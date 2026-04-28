@@ -8,7 +8,7 @@ import '../constants/colors.dart';
 import 'app_text.dart';
 import 'custom_lottie_widget.dart';
 
-customAlertDialog({
+void customAlertDialog({
   required BuildContext context,
   required Widget child,
   Color? barrierColor,
@@ -89,7 +89,7 @@ customAlertDialog({
   );
 }
 
-showLoadingDialog({
+Future<dynamic> showLoadingDialog({
   required BuildContext context,
   String? text,
   bool isLottie = false,
@@ -111,7 +111,7 @@ showLoadingDialog({
                 ? const CustomLottieWidget()
                 : Column(
                     children: [
-                      const CircularProgressIndicator(
+                      CircularProgressIndicator(
                         strokeWidth: 3,
                         color: AppColors.primary,
                       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../../core/cache/cache_helper.dart';
 import '../../../../../core/widgets/app_text.dart';
 import '../../../../../gen/fonts.gen.dart';
 
@@ -68,7 +69,7 @@ class _TransactionsState extends State<Transactions>
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: CacheHelper.getDarkMode() ? Color(0xff1E2939) : Colors.white,
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
@@ -90,7 +91,9 @@ class _TransactionsState extends State<Transactions>
                 child: AppText(
                   text: 'Recent Transactions',
                   size: 18.sp,
-                  color: Colors.black,
+                  color: CacheHelper.getDarkMode()
+                      ? Colors.white
+                      : Colors.black,
                   fontWeight: FontWeight.w700,
                   family: FontFamily.bahijJannaBold,
                 ),
@@ -150,13 +153,17 @@ class _TransactionsState extends State<Transactions>
                         AppText(
                           text: 'Bus Ticket',
                           size: 16.sp,
-                          color: Colors.black,
+                          color: CacheHelper.getDarkMode()
+                              ? Colors.white
+                              : Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                         AppText(
                           text: 'Shopping, 7/3/2023',
                           size: 12.sp,
-                          color: Colors.grey,
+                          color: CacheHelper.getDarkMode()
+                              ? Colors.white
+                              : Colors.grey,
                         ),
                       ],
                     ),

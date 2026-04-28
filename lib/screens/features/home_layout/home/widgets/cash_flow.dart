@@ -3,6 +3,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/cache/cache_helper.dart';
 import '../../../../../core/widgets/app_text.dart';
 import '../../../../../gen/fonts.gen.dart';
 
@@ -105,7 +106,9 @@ class _CashFlowState extends State<CashFlow> with TickerProviderStateMixin {
               // تطبيق الأنيميشن على البوردر
               progress: _borderController.value,
               borderRadius: 20.r,
-              borderColor: Colors.blue,
+              borderColor: CacheHelper.getDarkMode()
+                  ? Color(0xff21378E)
+                  : Colors.blue,
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsetsDirectional.only(
@@ -118,10 +121,22 @@ class _CashFlowState extends State<CashFlow> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color.lerp(Colors.white, Colors.blue, t)!,
                       Color.lerp(
-                        Colors.white.withAlpha(70),
-                        const Color(0xFFF7F5FF),
+                        CacheHelper.getDarkMode()
+                            ? Color(0xff1E2939)
+                            : Colors.white,
+                        CacheHelper.getDarkMode()
+                            ? Color(0xff21378E)
+                            : Colors.blue,
+                        t,
+                      )!,
+                      Color.lerp(
+                        CacheHelper.getDarkMode()
+                            ? Color(0xff1E2939).withAlpha(70)
+                            : Colors.white.withAlpha(70),
+                        CacheHelper.getDarkMode()
+                            ? Color(0xff1E2939)
+                            : const Color(0xFFF7F5FF),
                         t,
                       )!,
                     ],
@@ -139,7 +154,9 @@ class _CashFlowState extends State<CashFlow> with TickerProviderStateMixin {
                       child: AppText(
                         text: 'Cash Flow (12 Months)',
                         size: 18.sp,
-                        color: Colors.black,
+                        color: CacheHelper.getDarkMode()
+                            ? Colors.white
+                            : Colors.black,
                         fontWeight: FontWeight.w700,
                         family: FontFamily.bahijJannaBold,
                         bottom: 20.h,
@@ -181,8 +198,11 @@ class _CashFlowState extends State<CashFlow> with TickerProviderStateMixin {
                                   final month = months[s.x.toInt()];
                                   return LineTooltipItem(
                                     '$month\n${s.y.toInt()}%',
-                                    const TextStyle(
+                                    TextStyle(
                                       fontWeight: FontWeight.w600,
+                                      color: CacheHelper.getDarkMode()
+                                          ? Colors.white
+                                          : Colors.black,
                                     ),
                                   );
                                 }).toList();
@@ -206,7 +226,12 @@ class _CashFlowState extends State<CashFlow> with TickerProviderStateMixin {
                                 getTitlesWidget: (value, meta) {
                                   return Text(
                                     '${value.toInt()}%',
-                                    style: const TextStyle(fontSize: 11),
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: CacheHelper.getDarkMode()
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                                   );
                                 },
                               ),
@@ -239,7 +264,12 @@ class _CashFlowState extends State<CashFlow> with TickerProviderStateMixin {
                                     padding: const EdgeInsets.only(top: 8),
                                     child: Text(
                                       months[index],
-                                      style: const TextStyle(fontSize: 11),
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: CacheHelper.getDarkMode()
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
                                     ),
                                   );
                                 },
@@ -253,6 +283,7 @@ class _CashFlowState extends State<CashFlow> with TickerProviderStateMixin {
                               spots: spots,
                               isCurved: true,
                               barWidth: 3,
+
                               dotData: FlDotData(
                                 show: data.length <= 14,
                               ), // لو أيام قليلة: نقط
@@ -392,11 +423,15 @@ class _RunningBorderPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..shader = LinearGradient(
         colors: [
-          Colors.blue.withOpacity(0.8),
+          CacheHelper.getDarkMode()
+              ? Color(0xff21378E)
+              : Colors.blue.withOpacity(0.8),
           borderColor,
           Colors.white,
           borderColor,
-          Colors.blue.withOpacity(0.8),
+          CacheHelper.getDarkMode()
+              ? Color(0xff21378E)
+              : Colors.blue.withOpacity(0.8),
         ],
       ).createShader(rect);
 

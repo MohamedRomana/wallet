@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../core/cache/cache_helper.dart';
 import '../../../generated/locale_keys.g.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -103,7 +104,9 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
                 height: 75.h,
                 padding: EdgeInsets.symmetric(horizontal: 30.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: CacheHelper.getDarkMode()
+                      ? Colors.black
+                      : Colors.white,
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(20.r),
                   ),
@@ -288,7 +291,11 @@ class _AnimatedIconButtonState extends State<_AnimatedIconButton>
           widget.icon,
           height: 30.w,
           width: 30.w,
-          color: widget.isActive ? AppColors.primary : Colors.black,
+          color: widget.isActive
+              ? AppColors.primary
+              : CacheHelper.getDarkMode()
+              ? Colors.white
+              : Colors.black,
         ),
       ),
     );

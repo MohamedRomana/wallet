@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wallet/core/cache/cache_helper.dart';
 import '../../../../../core/widgets/app_text.dart';
 import '../../../../../gen/fonts.gen.dart';
 import 'dart:math' as math;
@@ -76,7 +77,11 @@ class _QuickActionsState extends State<QuickActions>
               width: 361.w,
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
               decoration: BoxDecoration(
-                color: Color.lerp(Colors.white, Colors.black, t),
+                color: Color.lerp(
+                  Colors.white,
+                  CacheHelper.getDarkMode() ? Color(0xff1E2939) : Colors.black,
+                  t,
+                ),
                 borderRadius: BorderRadius.circular(20.r),
                 boxShadow: [
                   BoxShadow(

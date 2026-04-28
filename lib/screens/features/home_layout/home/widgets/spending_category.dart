@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/cache/cache_helper.dart';
 import '../../../../../core/widgets/app_text.dart';
 import '../../../../../gen/fonts.gen.dart';
 
@@ -78,7 +79,9 @@ class _SpendingCategoryState extends State<SpendingCategory>
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: CacheHelper.getDarkMode()
+                      ? Color(0xff1E2939)
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
                     BoxShadow(
@@ -97,7 +100,9 @@ class _SpendingCategoryState extends State<SpendingCategory>
                         AppText(
                           text: 'Spending by Category',
                           size: 18.sp,
-                          color: Colors.black,
+                          color: CacheHelper.getDarkMode()
+                              ? Colors.white
+                              : Colors.black,
                           fontWeight: FontWeight.w700,
                           family: FontFamily.bahijJannaBold,
                         ),
@@ -127,7 +132,12 @@ class _SpendingCategoryState extends State<SpendingCategory>
 
                               /// 🔥 animation
                               sections: [
-                                _buildSection(Colors.blue, 25),
+                                _buildSection(
+                                  CacheHelper.getDarkMode()
+                                      ? Color(0xff21378E)
+                                      : Colors.blue,
+                                  25,
+                                ),
                                 _buildSection(Colors.red, 25),
                                 _buildSection(Colors.orange, 25),
                                 _buildSection(Colors.pink, 25),
@@ -144,7 +154,9 @@ class _SpendingCategoryState extends State<SpendingCategory>
                           children: [
                             _buildItem(
                               delay: 0,
-                              color: Colors.blue,
+                              color: CacheHelper.getDarkMode()
+                                  ? Color(0xff21378E)
+                                  : Colors.blue,
                               title: 'Food & Drinks',
                               value: '450 \$',
                             ),
@@ -222,14 +234,14 @@ class _SpendingCategoryState extends State<SpendingCategory>
               AppText(
                 text: title,
                 size: 14.sp,
-                color: Colors.black,
+                color: CacheHelper.getDarkMode() ? Colors.white : Colors.black,
                 fontWeight: FontWeight.w500,
                 end: 20.w,
               ),
               AppText(
                 text: value,
                 size: 14.sp,
-                color: Colors.black,
+                color: CacheHelper.getDarkMode() ? Colors.white : Colors.black,
                 fontWeight: FontWeight.w500,
               ),
             ],

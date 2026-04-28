@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
+import '../../../../core/cache/cache_helper.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/app_text.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -296,7 +297,9 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                 vertical: 16.h,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: CacheHelper.getDarkMode()
+                                    ? Color(0xff1E2939)
+                                    : Colors.white,
                                 borderRadius: BorderRadius.circular(20.r),
                                 boxShadow: [
                                   BoxShadow(
@@ -324,7 +327,9 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                           AppText(
                                             text: goals[index]['title'],
                                             size: 16.sp,
-                                            color: Colors.black87,
+                                            color: CacheHelper.getDarkMode()
+                                                ? Colors.white
+                                                : Colors.black87,
                                             fontWeight: FontWeight.w600,
                                           ),
                                           SizedBox(height: 4.h),
@@ -332,7 +337,9 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                             text:
                                                 'Budget: ${goals[index]["target"]}',
                                             size: 14.sp,
-                                            color: Colors.black54,
+                                            color: CacheHelper.getDarkMode()
+                                                ? Colors.white54
+                                                : Colors.black54,
                                           ),
                                         ],
                                       ),
@@ -377,7 +384,9 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                           goals[index]['prog_double'] / 100,
                                       barRadius: Radius.circular(7.r),
                                       backgroundColor: Colors.grey,
-                                      progressColor: Colors.black,
+                                      progressColor: CacheHelper.getDarkMode()
+                                          ? Colors.white
+                                          : Colors.black,
                                       animation: true,
                                       animateFromLastPercent: true,
                                       animateToInitialPercent: true,
