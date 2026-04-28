@@ -536,4 +536,10 @@ class AppCubit extends Cubit<AppState> {
       emit(UploadImagesFailure());
     }
   }
+
+  bool isChangeTheme = CacheHelper.getDarkMode();
+  void changeTheme(bool isChange) {
+    isChangeTheme = isChange;
+    emit(ChangeIndex());
+  }
 }

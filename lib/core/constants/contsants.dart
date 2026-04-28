@@ -41,3 +41,7 @@ Future<void> openWhatsApp(String phoneNumber) async {
   final Uri launchUri = Uri.parse("https://wa.me/$phoneNumber");
   await launchUrl(launchUri);
 }
+
+class ThemeController {
+  static ValueNotifier<bool> isDark = ValueNotifier(false);
+}

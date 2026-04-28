@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wallet/core/cache/cache_helper.dart';
 import 'package:wallet/core/widgets/app_router.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/constants/contsants.dart';
 import '../../../core/widgets/app_text.dart';
 import '../../../gen/fonts.gen.dart';
 import '../drawer_items/about_us/ui/about_us.dart';
@@ -483,7 +484,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                                     value: CacheHelper.getDarkMode(),
                                     onChanged: (bool value) {
                                       CacheHelper.setDarkMode(value);
-                                      setState(() {});
+                                      ThemeController.isDark.value = value;
                                     },
                                   ),
                                 ),

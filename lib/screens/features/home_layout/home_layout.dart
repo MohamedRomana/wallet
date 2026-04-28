@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/cache/cache_helper.dart';
+import '../../../core/constants/contsants.dart';
+import '../../../gen/fonts.gen.dart';
 import '../../../generated/locale_keys.g.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -26,6 +28,7 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    CacheHelper.getDarkMode();
 
     /// 🔥 Pulse للزرار +
     _plusController = AnimationController(
@@ -59,16 +62,30 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
               context: context,
               builder: (context) => AlertDialog(
                 backgroundColor: AppColors.secondray,
-                title: Text(LocaleKeys.doYouWantToLeaveThisApp.tr()),
-                content: Text(LocaleKeys.areYouSure.tr()),
+                title: Text(
+                  LocaleKeys.doYouWantToLeaveThisApp.tr(),
+                  style: const TextStyle(fontFamily: FontFamily.bahijJannaBold),
+                ),
+                content: Text(
+                  LocaleKeys.areYouSure.tr(),
+                  style: const TextStyle(
+                    fontFamily: FontFamily.bahijJannaRegular,
+                  ),
+                ),
                 actions: [
                   TextButton(
                     onPressed: () => SystemNavigator.pop(),
-                    child: Text(LocaleKeys.yes.tr()),
+                    child: Text(
+                      LocaleKeys.yes.tr(),
+                      style: const TextStyle(color: Colors.red),
+                    ),
                   ),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: Text(LocaleKeys.no.tr()),
+                    child: Text(
+                      LocaleKeys.no.tr(),
+                      style: const TextStyle(color: Colors.green),
+                    ),
                   ),
                 ],
               ),
@@ -98,119 +115,123 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
             ),
 
             /// 🔥 Bottom Nav
-            bottomNavigationBar: SafeArea(
-              bottom: false,
-              child: Container(
-                height: 75.h,
-                padding: EdgeInsets.symmetric(horizontal: 30.w),
-                decoration: BoxDecoration(
-                  color: CacheHelper.getDarkMode()
-                      ? Colors.black
-                      : Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20.r),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                    ),
-                  ],
-                ),
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildItem(
-                      icon: 'assets/svg/walet.svg',
-                      isActive: cubit.bottomNavIndex == 0,
-                      onTap: () => cubit.changebottomNavIndex(0),
-                    ),
-
-                    const SizedBox(),
-
-                    _buildItem(
-                      icon: 'assets/svg/pay.svg',
-                      isActive: cubit.bottomNavIndex == 1,
-                      onTap: () => cubit.changebottomNavIndex(1),
-                    ),
-
-                    /// 🔥 زرار +
-                    Transform.translate(
-                      offset: Offset(0, -20.h),
-                      child: GestureDetector(
-                        onTap: () {
-                          cubit.changebottomNavIndex(2);
-                        },
-                        child: AnimatedBuilder(
-                          animation: Listenable.merge([
-                            _plusController,
-                            _gradientController,
-                          ]),
-                          builder: (context, child) {
-                            final t = _gradientController.value;
-
-                            return Transform.scale(
-                              scale: 1 + (_plusController.value * 0.1),
-                              child: Transform.rotate(
-                                angle: _plusController.value * 0.5,
-                                child: Container(
-                                  height: 60.w,
-                                  width: 60.w,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color.lerp(
-                                          AppColors.primary,
-                                          AppColors.secondray,
-                                          t,
-                                        )!,
-                                        Color.lerp(
-                                          AppColors.secondray,
-                                          AppColors.primary,
-                                          t,
-                                        )!,
-                                      ],
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColors.primary.withOpacity(
-                                          0.5,
-                                        ),
-                                        blurRadius: 25,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: 30.w,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+            bottomNavigationBar: ValueListenableBuilder<bool>(
+              valueListenable: ThemeController.isDark,
+              builder: (context, isDark, child) {
+                return SafeArea(
+                  bottom: false,
+                  child: Container(
+                    height: 75.h,
+                    padding: EdgeInsets.symmetric(horizontal: 30.w),
+                    decoration: BoxDecoration(
+                      color: CacheHelper.getDarkMode()
+                          ? Colors.black
+                          : Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20.r),
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                        ),
+                      ],
                     ),
 
-                    _buildItem(
-                      icon: 'assets/svg/track.svg',
-                      isActive: cubit.bottomNavIndex == 3,
-                      onTap: () => cubit.changebottomNavIndex(3),
-                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildItem(
+                          icon: 'assets/svg/walet.svg',
+                          isActive: cubit.bottomNavIndex == 0,
+                          onTap: () => cubit.changebottomNavIndex(0),
+                        ),
 
-                    const SizedBox(),
+                        const SizedBox(),
 
-                    _buildItem(
-                      icon: 'assets/svg/goal.svg',
-                      isActive: cubit.bottomNavIndex == 4,
-                      onTap: () => cubit.changebottomNavIndex(4),
+                        _buildItem(
+                          icon: 'assets/svg/pay.svg',
+                          isActive: cubit.bottomNavIndex == 1,
+                          onTap: () => cubit.changebottomNavIndex(1),
+                        ),
+
+                        /// 🔥 زرار +
+                        Transform.translate(
+                          offset: Offset(0, -20.h),
+                          child: GestureDetector(
+                            onTap: () {
+                              cubit.changebottomNavIndex(2);
+                            },
+                            child: AnimatedBuilder(
+                              animation: Listenable.merge([
+                                _plusController,
+                                _gradientController,
+                              ]),
+                              builder: (context, child) {
+                                final t = _gradientController.value;
+
+                                return Transform.scale(
+                                  scale: 1 + (_plusController.value * 0.1),
+                                  child: Transform.rotate(
+                                    angle: _plusController.value * 0.5,
+                                    child: Container(
+                                      height: 60.w,
+                                      width: 60.w,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color.lerp(
+                                              AppColors.primary,
+                                              AppColors.secondray,
+                                              t,
+                                            )!,
+                                            Color.lerp(
+                                              AppColors.secondray,
+                                              AppColors.primary,
+                                              t,
+                                            )!,
+                                          ],
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppColors.primary
+                                                .withOpacity(0.5),
+                                            blurRadius: 25,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 30.w,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+
+                        _buildItem(
+                          icon: 'assets/svg/track.svg',
+                          isActive: cubit.bottomNavIndex == 3,
+                          onTap: () => cubit.changebottomNavIndex(3),
+                        ),
+
+                        const SizedBox(),
+
+                        _buildItem(
+                          icon: 'assets/svg/goal.svg',
+                          isActive: cubit.bottomNavIndex == 4,
+                          onTap: () => cubit.changebottomNavIndex(4),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
         );

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'core/constants/colors.dart';
 import 'core/cache/cache_helper.dart';
+import 'core/constants/contsants.dart';
 import 'core/service/bloc_observer.dart';
 import 'core/service/cubit/app_cubit.dart';
 import 'gen/fonts.gen.dart';
@@ -32,12 +32,12 @@ void main() async {
       saveLocale: true,
       useOnlyLangCode: true,
       startLocale: Locale(
-        CacheHelper.getLang() == "" ? "ar" : CacheHelper.getLang(),
+        CacheHelper.getLang() == "" ? "en" : CacheHelper.getLang(),
       ),
       assetLoader: const CodegenLoader(),
       path: 'assets/Lang',
       fallbackLocale: Locale(
-        CacheHelper.getLang() == "" ? "ar" : CacheHelper.getLang(),
+        CacheHelper.getLang() == "" ? "en" : CacheHelper.getLang(),
       ),
       child: const MyApp(),
     ),
@@ -60,34 +60,30 @@ class MyApp extends StatelessWidget {
           providers: [BlocProvider(create: (context) => AppCubit())],
           child: GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: MaterialApp(
-              theme: ThemeData(
-                fontFamily: FontFamily.bahijJannaRegular,
-                scaffoldBackgroundColor: Colors.white,
-                textSelectionTheme: TextSelectionThemeData(
-                  cursorColor: AppColors.primary,
-                  selectionColor: AppColors.primary.withOpacity(0.3),
-                  selectionHandleColor: AppColors.primary,
-                ),
-              ),
-              darkTheme: ThemeData(
-                fontFamily: FontFamily.bahijJannaRegular,
-                scaffoldBackgroundColor: CacheHelper.getDarkMode()
-                    ? Colors.black
-                    : Colors.white,
-                textSelectionTheme: TextSelectionThemeData(
-                  cursorColor: AppColors.primary,
-                  selectionColor: AppColors.primary.withOpacity(0.3),
-                  selectionHandleColor: AppColors.primary,
-                ),
-              ),
-              debugShowCheckedModeBanner: false,
-              builder: (context, child) => child!,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              navigatorKey: navigatorKey,
-              home: child,
+            child: ValueListenableBuilder<bool>(
+              valueListenable: ThemeController.isDark,
+              builder: (context, isDark, child) {
+                return MaterialApp(
+                  theme: ThemeData(
+                    fontFamily: FontFamily.bahijJannaRegular,
+                    scaffoldBackgroundColor: Colors.white,
+                  ),
+                  darkTheme: ThemeData(
+                    fontFamily: FontFamily.bahijJannaRegular,
+                    scaffoldBackgroundColor: Colors.black,
+                  ),
+                  themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+                  debugShowCheckedModeBanner: false,
+
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
+
+                  navigatorKey: navigatorKey,
+
+                  home: const Splash(), // ✅ الحل هنا
+                );
+              },
             ),
           ),
         );

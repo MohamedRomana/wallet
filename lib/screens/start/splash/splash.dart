@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wallet/core/cache/cache_helper.dart';
 import 'package:wallet/core/widgets/app_text.dart';
 import 'package:wallet/gen/fonts.gen.dart';
 import '../../../../gen/assets.gen.dart';
@@ -34,6 +35,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     _initAnimations();
     _startAnimations();
     _customNavigation();
+    CacheHelper.getDarkMode();
   }
 
   void _initAnimations() {
