@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/app_text.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -158,6 +159,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                         AppText(
                           text: "Categories & Budget",
                           color: Colors.white,
+                          bottom: 20.h,
                           size: 25.sp,
                           top: 15.h,
                           fontWeight: FontWeight.w700,
@@ -279,26 +281,10 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                               child: Row(
                                 children: [
                                   // أيقونة مع انيميشن "التنطيط"
-                                  AnimatedContainer(
-                                    duration: const Duration(milliseconds: 600),
-                                    curve: Curves.elasticInOut,
-                                    height: 50.w,
-                                    width: 50.w,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primary,
-                                      borderRadius: BorderRadius.circular(12.r),
-                                    ),
-                                    child: Transform.translate(
-                                      offset: Offset(
-                                        0,
-                                        _iconFloatAnimation.value,
-                                      ),
-                                      child: Icon(
-                                        Icons.account_balance_wallet_outlined,
-                                        color: Colors.white,
-                                        size: 24.w,
-                                      ),
-                                    ),
+                                  SvgPicture.asset(
+                                    'assets/svg/burger.svg',
+                                    width: 28.w,
+                                    height: 28.w,
                                   ),
                                   SizedBox(width: 16.w),
                                   Column(
