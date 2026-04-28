@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wallet/core/cache/cache_helper.dart';
-import 'package:wallet/gen/assets.gen.dart';
+import 'package:wallet/core/widgets/app_router.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/widgets/app_text.dart';
 import '../../../gen/fonts.gen.dart';
+import '../drawer_items/about_us/ui/about_us.dart';
+import '../drawer_items/contact_us/ui/contact_us.dart';
+import '../drawer_items/privacy_policy/ui/privacy_policy.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -151,17 +154,22 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                       children: [
                         Row(
                           children: [
-                            Container(
-                              padding: EdgeInsets.all(10.w),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white.withAlpha(80),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  size: 20.w,
-                                  color: Colors.white,
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () => Navigator.pop(context),
+                              child: Container(
+                                padding: EdgeInsets.all(10.w),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white.withAlpha(80),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    size: 20.w,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -188,7 +196,9 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                       AppText(
                         text: 'General',
                         size: 18.sp,
-                        color: Colors.black54,
+                        color: CacheHelper.getDarkMode()
+                            ? Colors.white
+                            : Colors.black54,
                         fontWeight: FontWeight.w700,
                         family: FontFamily.bahijJannaBold,
                         top: 20.h,
@@ -219,54 +229,66 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                         ),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 50.w,
-                                  width: 50.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.purple.withAlpha(30),
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      Assets.svg.notifications,
-                                      fit: BoxFit.cover,
-                                      color: Colors.purple,
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () {
+                                AppRouter.navigateTo(context, ContactUs());
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 50.w,
+                                    width: 50.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.purple.withAlpha(30),
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.contact_mail_outlined,
+                                        color: Colors.purple,
+                                        size: 30.w,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AppText(
-                                      text: 'Notifications',
-                                      size: 16.sp,
-                                      color: CacheHelper.getDarkMode()
-                                          ? Colors.white
-                                          : Colors.black87,
-                                      fontWeight: FontWeight.w600,
-                                      family: FontFamily.bahijJannaBold,
-                                      start: 16.w,
-                                    ),
-                                    AppText(
-                                      text:
-                                          'Configure notification preferences',
-                                      size: 14.sp,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500,
-                                      family: FontFamily.bahijJannaRegular,
-                                      start: 16.w,
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 16.w,
-                                  color: Colors.grey,
-                                ),
-                              ],
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppText(
+                                        text: 'Contact Us',
+                                        size: 16.sp,
+                                        color: CacheHelper.getDarkMode()
+                                            ? Colors.white
+                                            : Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                        family: FontFamily.bahijJannaBold,
+                                        start: 16.w,
+                                      ),
+                                      SizedBox(
+                                        width: 200.w,
+                                        child: AppText(
+                                          text:
+                                              'Contact us if you have any questions or suggestions',
+                                          size: 14.sp,
+                                          lines: 2,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          family: FontFamily.bahijJannaRegular,
+                                          start: 16.w,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16.w,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                              ),
                             ),
                             SizedBox(height: 16.h),
                             Divider(
@@ -274,65 +296,123 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                               color: Colors.grey.withAlpha(50),
                             ),
                             SizedBox(height: 16.h),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 50.w,
-                                  width: 50.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green.withAlpha(30),
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.language,
-                                      size: 24.w,
-                                      color: Colors.green,
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () {
+                                AppRouter.navigateTo(context, PrivacyPolicy());
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 50.w,
+                                    width: 50.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green.withAlpha(30),
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.privacy_tip_outlined,
+                                        size: 24.w,
+                                        color: Colors.green,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AppText(
-                                      text: 'Language',
-                                      size: 16.sp,
-                                      color: CacheHelper.getDarkMode()
-                                          ? Colors.white
-                                          : Colors.black87,
-                                      fontWeight: FontWeight.w600,
-                                      family: FontFamily.bahijJannaBold,
-                                      start: 16.w,
-                                    ),
-                                    AppText(
-                                      text: 'English',
-                                      size: 14.sp,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500,
-                                      family: FontFamily.bahijJannaRegular,
-                                      start: 16.w,
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Transform.scale(
-                                  scale: 0.8.r,
-                                  child: Switch(
-                                    padding: EdgeInsets.zero,
-                                    trackOutlineColor:
-                                        const WidgetStatePropertyAll(
-                                          Colors.transparent,
-                                        ),
-                                    activeThumbColor: AppColors.primary,
-                                    activeTrackColor: AppColors.primary
-                                        .withOpacity(0.2),
-                                    inactiveThumbColor: const Color(0xffB5B2B2),
-                                    inactiveTrackColor: const Color(0xffDCDCDC),
-                                    value: true,
-                                    onChanged: (bool value) {},
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppText(
+                                        text: 'Privacy Policy',
+                                        size: 16.sp,
+                                        color: CacheHelper.getDarkMode()
+                                            ? Colors.white
+                                            : Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                        family: FontFamily.bahijJannaBold,
+                                        start: 16.w,
+                                      ),
+                                      AppText(
+                                        text: 'Privacy Policy and Terms of Use',
+                                        size: 14.sp,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        family: FontFamily.bahijJannaRegular,
+                                        start: 16.w,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16.w,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                            Divider(
+                              thickness: 1,
+                              color: Colors.grey.withAlpha(50),
+                            ),
+                            SizedBox(height: 16.h),
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () {
+                                AppRouter.navigateTo(context, AboutUs());
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 50.w,
+                                    width: 50.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red.withAlpha(30),
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.info_outline,
+                                        size: 24.w,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppText(
+                                        text: 'About Us',
+                                        size: 16.sp,
+                                        color: CacheHelper.getDarkMode()
+                                            ? Colors.white
+                                            : Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                        family: FontFamily.bahijJannaBold,
+                                        start: 16.w,
+                                      ),
+                                      AppText(
+                                        text: 'About the app and our team',
+                                        size: 14.sp,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        family: FontFamily.bahijJannaRegular,
+                                        start: 16.w,
+                                      ),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16.w,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                              ),
                             ),
                             SizedBox(height: 16.h),
                             Divider(
