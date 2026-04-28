@@ -14,6 +14,7 @@ class ExpenseFields extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 20.h),
           Container(
             width: 361.w,
             padding: EdgeInsets.all(16.r),
