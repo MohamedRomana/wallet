@@ -7,6 +7,8 @@ import '../../../../../core/widgets/app_text.dart';
 import '../../../../../gen/fonts.gen.dart';
 import 'dart:math' as math;
 
+import '../../add/add.dart';
+
 class QuickActions extends StatefulWidget {
   const QuickActions({super.key});
 
@@ -126,6 +128,14 @@ class _QuickActionsState extends State<QuickActions>
                           iconAngle: 2.5,
                           line1: 'Add',
                           line2: 'Income',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Add(initialTab: 0),
+                              ),
+                            );
+                          },
                         ),
                       ),
                       SizedBox(width: 10.w),
@@ -144,6 +154,14 @@ class _QuickActionsState extends State<QuickActions>
                           line1: 'Add',
                           line2: 'Expense',
                           borderColor: Colors.red,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Add(initialTab: 1),
+                              ),
+                            );
+                          },
                         ),
                       ),
                       SizedBox(width: 10.w),
@@ -162,6 +180,14 @@ class _QuickActionsState extends State<QuickActions>
                           line1: 'Transfer',
                           line2: '',
                           borderColor: Colors.blue,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Add(initialTab: 2),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -190,6 +216,7 @@ class _ActionCard extends StatefulWidget {
   final double borderProgress;
   final double bgProgress;
   final Color borderColor;
+  final VoidCallback onTap;
 
   const _ActionCard({
     required this.width,
@@ -205,6 +232,7 @@ class _ActionCard extends StatefulWidget {
     required this.borderProgress,
     required this.bgProgress,
     required this.borderColor,
+    required this.onTap,
   });
 
   @override
@@ -270,7 +298,7 @@ class _ActionCardState extends State<_ActionCard>
         return Transform.scale(scale: entryScale, child: child);
       },
       child: GestureDetector(
-        onTap: () {},
+        onTap: widget.onTap,
         onTapDown: _onTapDown,
         onTapUp: _onTapUp,
         onTapCancel: _onTapCancel,

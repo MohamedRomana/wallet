@@ -11,7 +11,8 @@ import 'widgets/expense_fields.dart';
 import 'widgets/income_fields.dart';
 
 class Add extends StatefulWidget {
-  const Add({super.key});
+  final int initialTab;
+  const Add({super.key, this.initialTab = 0});
 
   @override
   State<Add> createState() => _AddState();
@@ -29,7 +30,11 @@ class _AddState extends State<Add> with TickerProviderStateMixin {
       duration: const Duration(seconds: 5),
     )..repeat(reverse: true);
 
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: widget.initialTab,
+    );
     _tabController.addListener(() {
       setState(() {});
     });
@@ -47,6 +52,14 @@ class _AddState extends State<Add> with TickerProviderStateMixin {
       default:
         return CacheHelper.getDarkMode() ? Color(0xff21378E) : Colors.blue;
     }
+  }
+
+  @override
+  void dispose() {
+    _gradientController.dispose();
+    _tabController.dispose();
+
+    super.dispose();
   }
 
   @override

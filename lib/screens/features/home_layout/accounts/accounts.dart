@@ -260,7 +260,7 @@ class _AccountsState extends State<Accounts> with TickerProviderStateMixin {
                 ),
                 // قائمة مع أنيميشن التنقل
                 ListView.separated(
-                  itemCount: 10,
+                  itemCount: 3,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsetsDirectional.only(

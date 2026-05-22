@@ -115,7 +115,7 @@ class _TransactionsState extends State<Transactions>
           ),
 
           ListView.separated(
-            itemCount: 10,
+            itemCount: 1,
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
