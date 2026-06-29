@@ -6,9 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/cache/cache_helper.dart';
 import 'core/constants/contsants.dart';
+import 'core/data/wallet_repository.dart';
 import 'core/service/bloc_observer.dart';
 import 'core/service/cubit/app_cubit.dart';
-import 'gen/fonts.gen.dart';
+import 'core/theme/app_theme.dart';
 import 'generated/codegen_loader.g.dart';
 import 'screens/start/splash/splash.dart';
 
@@ -21,10 +22,10 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   await CacheHelper.init();
+  await WalletRepository.instance.init();
+  ThemeController.isDark.value = CacheHelper.getDarkMode();
   Bloc.observer = MyBlocObserver();
-  // await NotificationHelper.initFirebaseAndFCM();
   await EasyLocalization.ensureInitialized();
-  debugPrint("userId is ${CacheHelper.getUserId()}");
 
   runApp(
     EasyLocalization(
@@ -64,14 +65,8 @@ class MyApp extends StatelessWidget {
               valueListenable: ThemeController.isDark,
               builder: (context, isDark, child) {
                 return MaterialApp(
-                  theme: ThemeData(
-                    fontFamily: FontFamily.bahijJannaRegular,
-                    scaffoldBackgroundColor: Colors.white,
-                  ),
-                  darkTheme: ThemeData(
-                    fontFamily: FontFamily.bahijJannaRegular,
-                    scaffoldBackgroundColor: Colors.black,
-                  ),
+                  theme: AppTheme.light,
+                  darkTheme: AppTheme.dark,
                   themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
                   debugShowCheckedModeBanner: false,
 

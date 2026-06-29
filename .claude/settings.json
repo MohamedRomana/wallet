@@ -5,7 +5,9 @@
       "Bash(xargs grep -l \"class.*Transaction\\\\|class.*Expense\\\\|class.*Income\")",
       "Bash(grep -rn \"\\\\.\\\\\\\\$\" /d/Projects/wallet/lib/screens/features/home_layout/)",
       "Bash(flutter --version)",
-      "Bash(flutter pub *)"
+      "Bash(flutter pub *)",
+      "Bash(grep -nE \"static const Map<String,dynamic> _\\(ar|en\\) = \\\\{\" lib/generated/codegen_loader.g.dart)",
+      "Bash(flutter analyze *)"
     ]
   }
 }

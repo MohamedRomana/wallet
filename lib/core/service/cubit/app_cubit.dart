@@ -60,8 +60,8 @@ class AppCubit extends Cubit<AppState> {
   // Language
   // ---------------------------------------------------------------------------
   Future<void> changeLanguage(BuildContext context, String code) async {
-    await CacheHelper.setLang(code);
     await context.setLocale(Locale(code));
+    await CacheHelper.setLang(code);
     emit(LocaleChanged());
   }
 
