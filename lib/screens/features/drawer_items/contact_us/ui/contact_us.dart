@@ -1,16 +1,15 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../../core/widgets/app_input.dart';
-import '../../../../../../../gen/assets.gen.dart';
-import '../../../../../../../generated/locale_keys.g.dart';
-import '../../../../../../core/widgets/app_button.dart';
-import '../../../../../../core/widgets/app_text.dart';
-import '../../../../../../gen/fonts.gen.dart';
+
+import '../../../../../core/constants/colors.dart';
+import '../../../../../core/theme/app_theme.dart';
+import '../../../../../core/widgets/app_feedback.dart';
+import '../../../../../core/widgets/app_text.dart';
+import '../../../../../core/widgets/section_card.dart';
+import '../../../../../core/widgets/sub_header.dart';
+import '../../../../../gen/fonts.gen.dart';
+import '../../../../../generated/locale_keys.g.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({super.key});
@@ -19,230 +18,209 @@ class ContactUs extends StatefulWidget {
   State<ContactUs> createState() => _ContactUsState();
 }
 
-class _ContactUsState extends State<ContactUs> with TickerProviderStateMixin {
-  late final AnimationController _logoController;
-  late final AnimationController _textController;
-  late final AnimationController _gradientController;
-
-  late final Animation<double> _logoBounceAnimation;
-  late final Animation<double> _titleFadeAnimation;
-  late final Animation<Offset> _titleSlideAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _initAnimations();
-    _startAnimations();
-  }
-
-  void _initAnimations() {
-    _logoController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1400),
-    );
-
-    _textController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1600),
-    );
-
-    _gradientController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 4),
-    )..repeat(reverse: true);
-
-    _logoBounceAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: Tween<double>(
-          begin: 0.0,
-          end: -18.0,
-        ).chain(CurveTween(curve: Curves.easeOut)),
-        weight: 35,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(
-          begin: -18.0,
-          end: 0.0,
-        ).chain(CurveTween(curve: Curves.bounceOut)),
-        weight: 65,
-      ),
-    ]).animate(_logoController);
-
-    _titleFadeAnimation = CurvedAnimation(
-      parent: _textController,
-      curve: const Interval(0.15, 0.55, curve: Curves.easeIn),
-    );
-
-    _titleSlideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.7), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _textController,
-            curve: const Interval(0.15, 0.55, curve: Curves.easeOutCubic),
-          ),
-        );
-  }
-
-  void _startAnimations() async {
-    _logoController.repeat(reverse: true);
-    await Future.delayed(const Duration(milliseconds: 300));
-    _textController.forward();
-  }
+class _ContactUsState extends State<ContactUs> {
+  final _formKey = GlobalKey<FormState>();
+  final _name = TextEditingController();
+  final _email = TextEditingController();
+  final _message = TextEditingController();
 
   @override
   void dispose() {
-    _logoController.dispose();
-    _textController.dispose();
-    _gradientController.dispose();
+    _name.dispose();
+    _email.dispose();
+    _message.dispose();
     super.dispose();
+  }
+
+  void _send() {
+    if (_formKey.currentState?.validate() ?? false) {
+      FocusScope.of(context).unfocus();
+      _name.clear();
+      _email.clear();
+      _message.clear();
+      AppFeedback.success(context, LocaleKeys.message_sent.tr());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedBuilder(
-        animation: _gradientController,
-        builder: (context, child) {
-          final t = _gradientController.value;
-
-          return Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.lerp(
-                    const Color(0xFF614BFB),
-                    const Color(0xFF8B5CF6),
-                    t,
-                  )!,
-                  Color.lerp(
-                    const Color(0xFF751BDC),
-                    const Color(0xFF3B1FA8),
-                    t,
-                  )!,
-                  Color.lerp(
-                    const Color(0xFF4C35E0),
-                    const Color(0xFF614BFB),
-                    t,
-                  )!,
-                ],
-                begin: Alignment(
-                  lerpDouble(1.0, -1.0, t)!,
-                  lerpDouble(-1.0, 1.0, t)!,
-                ),
-                end: Alignment(
-                  lerpDouble(-1.0, 1.0, t)!,
-                  lerpDouble(1.0, -1.0, t)!,
-                ),
-              ),
-            ),
-            child: SingleChildScrollView(
-              child: Form(
-                // key: context.read<ContactUsCubit>().formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 120.h),
-                    Center(
-                      child: AnimatedBuilder(
-                        animation: _logoBounceAnimation,
-                        builder: (context, child) {
-                          return Transform.translate(
-                            offset: Offset(0, _logoBounceAnimation.value),
-                            child: child,
-                          );
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(12.r),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(28.r),
-                            color: Colors.white.withValues(alpha: 0.10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.12),
-                                blurRadius: 25,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 12),
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.r),
-                            child: Image.asset(
-                              Assets.img.logo.path,
-                              height: 150.w,
-                              width: 150.w,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+      body: Column(
+        children: [
+          SubHeader(title: LocaleKeys.contactUs.tr()),
+          Expanded(
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                padding: EdgeInsets.fromLTRB(16.w, 22.h, 16.w, 30.h),
+                children: [
+                  Row(
+                    children: [
+                      _Contact(
+                        icon: Icons.email_rounded,
+                        label: 'support@pocketmind.app',
+                        color: AppColors.primary,
+                      ),
+                      SizedBox(width: 12.w),
+                      _Contact(
+                        icon: Icons.phone_rounded,
+                        label: '+1 234 567',
+                        color: AppColors.income,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 22.h),
+                  _Field(
+                    controller: _name,
+                    label: LocaleKeys.your_name.tr(),
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? LocaleKeys.fill_all_fields.tr()
+                        : null,
+                  ),
+                  SizedBox(height: 14.h),
+                  _Field(
+                    controller: _email,
+                    label: LocaleKeys.your_email.tr(),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return LocaleKeys.fill_all_fields.tr();
+                      }
+                      if (!v.contains('@') || !v.contains('.')) {
+                        return LocaleKeys.fill_all_fields.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 14.h),
+                  _Field(
+                    controller: _message,
+                    label: LocaleKeys.your_message.tr(),
+                    maxLines: 5,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? LocaleKeys.fill_all_fields.tr()
+                        : null,
+                  ),
+                  SizedBox(height: 26.h),
+                  SizedBox(
+                    height: 52.h,
+                    child: ElevatedButton(
+                      onPressed: _send,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 24.h),
-                    SlideTransition(
-                      position: _titleSlideAnimation,
-                      child: FadeTransition(
-                        opacity: _titleFadeAnimation,
-                        child: AppText(
-                          text: 'Contact Us',
-                          start: 16.w,
-                          bottom: 20.h,
-                          size: 30.sp,
-                          color: Colors.white,
-                          family: FontFamily.bahijJannaBold,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    AppInput(
-                      hint: "Your Name",
-                      start: 16.w,
-                      end: 16.w,
-                      filled: true,
-                      color: Colors.grey.withAlpha(30),
-                      enabledBorderColor: Colors.transparent,
-                    ),
-                    SizedBox(height: 16.h),
-                    AppInput(
-                      hint: "Your Email",
-                      start: 16.w,
-                      end: 16.w,
-                      inputType: TextInputType.emailAddress,
-                      filled: true,
-                      color: Colors.grey.withAlpha(30),
-                      enabledBorderColor: Colors.transparent,
-                    ),
-                    SizedBox(height: 16.h),
-                    AppInput(
-                      hint: "Your message",
-                      maxLines: 5,
-                      start: 16.w,
-                      end: 16.w,
-                      inputType: TextInputType.number,
-                      filled: true,
-                      color: Colors.grey.withAlpha(30),
-                      enabledBorderColor: Colors.transparent,
-                    ),
-                    SizedBox(height: 24.h),
-
-                    AppButton(
-                      onPressed: () {},
-                      start: 24.w,
-                      end: 24.w,
-                      bottom: 20.h,
                       child: AppText(
                         text: LocaleKeys.send.tr(),
                         color: Colors.white,
-                        size: 18.sp,
+                        size: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        family: FontFamily.bahijJannaBold,
                       ),
                     ),
-                    SizedBox(height: 180.h),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          );
-        },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Contact extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  const _Contact({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SectionCard(
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
+        child: Column(
+          children: [
+            Container(
+              width: 44.w,
+              height: 44.w,
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 22.w),
+            ),
+            SizedBox(height: 8.h),
+            AppText(
+              text: label,
+              size: 12.sp,
+              textAlign: TextAlign.center,
+              color: context.palette.textSecondary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Field extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final TextInputType? keyboardType;
+  final int maxLines;
+  final String? Function(String?)? validator;
+
+  const _Field({
+    required this.controller,
+    required this.label,
+    this.keyboardType,
+    this.maxLines = 1,
+    this.validator,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      maxLines: maxLines,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      style: TextStyle(fontSize: 15.sp, color: palette.textPrimary),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: palette.textSecondary, fontSize: 14.sp),
+        filled: true,
+        fillColor: palette.surface,
+        contentPadding:
+            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: BorderSide(color: palette.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: const BorderSide(color: AppColors.expense),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: const BorderSide(color: AppColors.expense),
+        ),
       ),
     );
   }

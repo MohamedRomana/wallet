@@ -9,6 +9,7 @@ import 'package:wallet/core/widgets/app_text.dart';
 import 'package:wallet/gen/fonts.gen.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../core/widgets/app_router.dart';
+import '../../features/home_layout/home_layout.dart';
 import '../on_boarding/on_boarding.dart';
 
 class Splash extends StatefulWidget {
@@ -257,24 +258,14 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   }
 
   Future<void> _customNavigation() async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(milliseconds: 2600));
 
     if (!mounted) return;
 
-    // CacheHelper.getLang() != ""
-    //     ? CacheHelper.getUserId() != ""
-    //           ? CacheHelper.getUserType() == "client" ||
-    //                     CacheHelper.getUserType() == "admin"
-    //                 ? AppRouter.navigateAndFinish(context, const HomeLayout())
-    //                 : AppRouter.navigateAndFinish(
-    //                     context,
-    //                     const ProvHomeLayout(),
-    //                   )
-    //           : {
-    //               CacheHelper.setUserType('client'),
-    //               AppRouter.navigateAndFinish(context, const HomeLayout()),
-    //             }
-    //     : AppRouter.navigateAndFinish(context, const OnBoarding());
-    AppRouter.navigateAndFinish(context, const OnBoarding());
+    final onboarded = CacheHelper.getData(key: 'onboarded') == true;
+    AppRouter.navigateAndFinish(
+      context,
+      onboarded ? const HomeLayout() : const OnBoarding(),
+    );
   }
 }

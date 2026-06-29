@@ -1,53 +1,59 @@
-// ignore_for_file: deprecated_member_use
-
-import 'dart:ui';
-import 'package:wallet/core/constants/colors.dart';
-import 'package:wallet/core/service/cubit/app_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../core/cache/cache_helper.dart';
-import '../../../core/constants/contsants.dart';
+
+import '../../../core/constants/colors.dart';
+import '../../../core/service/cubit/app_cubit.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/app_text.dart';
 import '../../../gen/fonts.gen.dart';
 import '../../../generated/locale_keys.g.dart';
 
-class HomeLayout extends StatefulWidget {
+class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
 
-  @override
-  State<HomeLayout> createState() => _HomeLayoutState();
-}
+  static const _items = [
+    _NavItem('assets/svg/walet.svg', 0),
+    _NavItem('assets/svg/pay.svg', 1),
+    _NavItem('assets/svg/track.svg', 3),
+    _NavItem('assets/svg/goal.svg', 4),
+  ];
 
-class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
-  late AnimationController _plusController;
-  late AnimationController _gradientController;
-
-  @override
-  void initState() {
-    super.initState();
-    CacheHelper.getDarkMode();
-
-    /// 🔥 Pulse للزرار +
-    _plusController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    )..repeat(reverse: true);
-
-    /// 🔥 Gradient متحرك
-    _gradientController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _plusController.dispose();
-    _gradientController.dispose();
-    super.dispose();
+  Future<void> _confirmExit(BuildContext context) async {
+    final palette = context.palette;
+    final leave = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: palette.surface,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+        title: AppText(
+          text: LocaleKeys.doYouWantToLeaveThisApp.tr(),
+          size: 16.sp,
+          fontWeight: FontWeight.w700,
+          family: FontFamily.bahijJannaBold,
+          color: palette.textPrimary,
+        ),
+        content: AppText(
+          text: LocaleKeys.areYouSure.tr(),
+          color: palette.textSecondary,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: AppText(text: LocaleKeys.no.tr(), color: AppColors.income),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: AppText(text: LocaleKeys.yes.tr(), color: AppColors.expense),
+          ),
+        ],
+      ),
+    );
+    if (leave == true) SystemNavigator.pop();
   }
 
   @override
@@ -55,268 +61,165 @@ class _HomeLayoutState extends State<HomeLayout> with TickerProviderStateMixin {
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
         final cubit = AppCubit.get(context);
-
-        return WillPopScope(
-          onWillPop: () async {
-            bool? shouldPop = await showDialog<bool>(
-              context: context,
-              builder: (context) => AlertDialog(
-                backgroundColor: AppColors.secondray,
-                title: Text(
-                  LocaleKeys.doYouWantToLeaveThisApp.tr(),
-                  style: const TextStyle(fontFamily: FontFamily.bahijJannaBold),
-                ),
-                content: Text(
-                  LocaleKeys.areYouSure.tr(),
-                  style: const TextStyle(
-                    fontFamily: FontFamily.bahijJannaRegular,
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => SystemNavigator.pop(),
-                    child: Text(
-                      LocaleKeys.yes.tr(),
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text(
-                      LocaleKeys.no.tr(),
-                      style: const TextStyle(color: Colors.green),
-                    ),
-                  ),
-                ],
-              ),
-            );
-            return shouldPop ?? false;
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) _confirmExit(context);
           },
-
           child: Scaffold(
             extendBody: true,
-
-            /// 🔥 Animated Body
             body: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 400),
-              transitionBuilder: (child, animation) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween(
-                      begin: const Offset(0.1, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                );
-              },
-              child: cubit.bottomNavScreens[cubit.bottomNavIndex],
+              duration: const Duration(milliseconds: 350),
+              transitionBuilder: (child, animation) => FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+              child: KeyedSubtree(
+                key: ValueKey(cubit.bottomNavIndex),
+                child: cubit.bottomNavScreens[cubit.bottomNavIndex],
+              ),
             ),
-
-            /// 🔥 Bottom Nav
-            bottomNavigationBar: ValueListenableBuilder<bool>(
-              valueListenable: ThemeController.isDark,
-              builder: (context, isDark, child) {
-                return SafeArea(
-                  bottom: false,
-                  child: Container(
-                    height: 75.h,
-                    padding: EdgeInsets.symmetric(horizontal: 30.w),
-                    decoration: BoxDecoration(
-                      color: CacheHelper.getDarkMode()
-                          ? Colors.black
-                          : Colors.white,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20.r),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                        ),
-                      ],
-                    ),
-
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildItem(
-                          icon: 'assets/svg/walet.svg',
-                          isActive: cubit.bottomNavIndex == 0,
-                          onTap: () => cubit.changebottomNavIndex(0),
-                        ),
-
-                        const SizedBox(),
-
-                        _buildItem(
-                          icon: 'assets/svg/pay.svg',
-                          isActive: cubit.bottomNavIndex == 1,
-                          onTap: () => cubit.changebottomNavIndex(1),
-                        ),
-
-                        /// 🔥 زرار +
-                        Transform.translate(
-                          offset: Offset(0, -20.h),
-                          child: GestureDetector(
-                            onTap: () {
-                              cubit.changebottomNavIndex(2);
-                            },
-                            child: AnimatedBuilder(
-                              animation: Listenable.merge([
-                                _plusController,
-                                _gradientController,
-                              ]),
-                              builder: (context, child) {
-                                final t = _gradientController.value;
-
-                                return Transform.scale(
-                                  scale: 1 + (_plusController.value * 0.1),
-                                  child: Transform.rotate(
-                                    angle: _plusController.value * 0.5,
-                                    child: Container(
-                                      height: 60.w,
-                                      width: 60.w,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color.lerp(
-                                              AppColors.primary,
-                                              AppColors.secondray,
-                                              t,
-                                            )!,
-                                            Color.lerp(
-                                              AppColors.secondray,
-                                              AppColors.primary,
-                                              t,
-                                            )!,
-                                          ],
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: AppColors.primary
-                                                .withOpacity(0.5),
-                                            blurRadius: 25,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                        size: 30.w,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-
-                        _buildItem(
-                          icon: 'assets/svg/track.svg',
-                          isActive: cubit.bottomNavIndex == 3,
-                          onTap: () => cubit.changebottomNavIndex(3),
-                        ),
-
-                        const SizedBox(),
-
-                        _buildItem(
-                          icon: 'assets/svg/goal.svg',
-                          isActive: cubit.bottomNavIndex == 4,
-                          onTap: () => cubit.changebottomNavIndex(4),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            bottomNavigationBar: _BottomBar(cubit: cubit, items: _items),
           ),
         );
       },
     );
   }
+}
 
-  /// 🔥 زرار عادي Animated
-  Widget _buildItem({
-    required String icon,
-    required bool isActive,
-    required VoidCallback onTap,
-  }) {
-    return _AnimatedIconButton(icon: icon, isActive: isActive, onTap: onTap);
+class _NavItem {
+  final String icon;
+  final int index;
+  const _NavItem(this.icon, this.index);
+}
+
+class _BottomBar extends StatelessWidget {
+  final AppCubit cubit;
+  final List<_NavItem> items;
+  const _BottomBar({required this.cubit, required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        height: 74.h,
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        decoration: BoxDecoration(
+          color: palette.surface,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+          boxShadow: [
+            BoxShadow(
+              color: palette.shadow,
+              blurRadius: 18,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _NavButton(
+              item: items[0],
+              active: cubit.bottomNavIndex == 0,
+              onTap: () => cubit.changebottomNavIndex(0),
+            ),
+            _NavButton(
+              item: items[1],
+              active: cubit.bottomNavIndex == 1,
+              onTap: () => cubit.changebottomNavIndex(1),
+            ),
+            _CenterAddButton(
+              active: cubit.bottomNavIndex == 2,
+              onTap: () => cubit.changebottomNavIndex(2),
+            ),
+            _NavButton(
+              item: items[2],
+              active: cubit.bottomNavIndex == 3,
+              onTap: () => cubit.changebottomNavIndex(3),
+            ),
+            _NavButton(
+              item: items[3],
+              active: cubit.bottomNavIndex == 4,
+              onTap: () => cubit.changebottomNavIndex(4),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-class _AnimatedIconButton extends StatefulWidget {
-  final String icon;
-  final bool isActive;
+class _NavButton extends StatelessWidget {
+  final _NavItem item;
+  final bool active;
   final VoidCallback onTap;
 
-  const _AnimatedIconButton({
-    required this.icon,
-    required this.isActive,
+  const _NavButton({
+    required this.item,
+    required this.active,
     required this.onTap,
   });
 
   @override
-  State<_AnimatedIconButton> createState() => _AnimatedIconButtonState();
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: AnimatedScale(
+        scale: active ? 1.15 : 1,
+        duration: const Duration(milliseconds: 200),
+        child: SvgPicture.asset(
+          item.icon,
+          width: 26.w,
+          height: 26.w,
+          colorFilter: ColorFilter.mode(
+            active ? AppColors.primary : palette.textSecondary,
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _AnimatedIconButtonState extends State<_AnimatedIconButton>
-    with TickerProviderStateMixin {
-  late AnimationController _scaleController;
-  late AnimationController _rotateController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _scaleController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-      lowerBound: 0.8,
-      upperBound: 1,
-      value: 1,
-    );
-
-    _rotateController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-  }
-
-  void _tap() {
-    _scaleController.reverse().then((_) => _scaleController.forward());
-    _rotateController.forward(from: 0);
-    widget.onTap();
-  }
+class _CenterAddButton extends StatelessWidget {
+  final bool active;
+  final VoidCallback onTap;
+  const _CenterAddButton({required this.active, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _tap,
-      child: AnimatedBuilder(
-        animation: Listenable.merge([_scaleController, _rotateController]),
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _scaleController.value,
-            child: Transform.rotate(
-              angle: _rotateController.value * 0.3,
-              child: child,
+      onTap: onTap,
+      child: Transform.translate(
+        offset: Offset(0, -18.h),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          height: 58.w,
+          width: 58.w,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+              colors: [AppColors.primary, AppColors.secondary],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          );
-        },
-        child: SvgPicture.asset(
-          widget.icon,
-          height: 30.w,
-          width: 30.w,
-          color: widget.isActive
-              ? AppColors.primary
-              : CacheHelper.getDarkMode()
-              ? Colors.white
-              : Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withValues(alpha: 0.45),
+                blurRadius: 18,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: AnimatedRotation(
+            turns: active ? 0.125 : 0,
+            duration: const Duration(milliseconds: 250),
+            child: Icon(Icons.add, color: Colors.white, size: 30.w),
+          ),
         ),
       ),
     );

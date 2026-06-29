@@ -266,6 +266,11 @@ class AppCubit extends Cubit<AppState> {
     emit(WalletUpdated());
   }
 
+  Future<void> resetAllData() async {
+    await repo.clearAll();
+    emit(WalletUpdated());
+  }
+
   String newId() => repo.newId();
 }
 

@@ -16,11 +16,6 @@ abstract class AppRouter {
         MaterialPageRoute(builder: (context) => page), (route) => false);
   }
 
-  static Future<void> newNavigate(context, page) {
-    return Navigator.of(context, rootNavigator: true)
-        .pushReplacement(MaterialPageRoute(builder: (context) => page()));
-  }
-
   static void pop(BuildContext context) {
     return Navigator.pop(context);
   }

@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use
-import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,7 @@ import 'package:wallet/core/widgets/app_router.dart';
 import 'package:wallet/screens/features/home_layout/home_layout.dart';
 import '../../../../core/cache/cache_helper.dart';
 import '../../../../core/widgets/app_text.dart';
+import '../../../../generated/locale_keys.g.dart';
 
 class CustomOnBoardingButtons extends StatefulWidget {
   const CustomOnBoardingButtons({
@@ -90,7 +90,7 @@ class _CustomOnBoardingButtonsState extends State<CustomOnBoardingButtons>
             child: widget.currPage <= widget.pagesList.length - 1.5
                 ? _buildButton(
                     key: const ValueKey("next"),
-                    text: "Next",
+                    text: LocaleKeys.next.tr(),
                     onTap: () {
                       widget.pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
@@ -100,12 +100,10 @@ class _CustomOnBoardingButtonsState extends State<CustomOnBoardingButtons>
                   )
                 : _buildButton(
                     key: const ValueKey("start"),
-                    text: "Get Started",
-
+                    text: LocaleKeys.start.tr(),
                     onTap: () {
-                      CacheHelper.setLang('en');
-                      context.setLocale(const Locale('en'));
-                      AppRouter.navigateAndFinish(context, HomeLayout());
+                      CacheHelper.saveData(key: 'onboarded', value: true);
+                      AppRouter.navigateAndFinish(context, const HomeLayout());
                     },
                   ),
           ),

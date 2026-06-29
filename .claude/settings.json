@@ -7,7 +7,8 @@
       "Bash(flutter --version)",
       "Bash(flutter pub *)",
       "Bash(grep -nE \"static const Map<String,dynamic> _\\(ar|en\\) = \\\\{\" lib/generated/codegen_loader.g.dart)",
-      "Bash(flutter analyze *)"
+      "Bash(flutter analyze *)",
+      "Bash(timeout 580 flutter build apk --debug)"
     ]
   }
 }
