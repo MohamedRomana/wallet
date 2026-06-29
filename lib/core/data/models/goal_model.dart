@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// A savings goal the user contributes towards over time.
 class GoalModel {
   final String id;
@@ -17,6 +19,8 @@ class GoalModel {
     required this.icon,
     required this.colorValue,
   });
+
+  Color get color => Color(colorValue);
 
   double get progress =>
       targetAmount <= 0 ? 0 : (savedAmount / targetAmount).clamp(0.0, 1.0);
