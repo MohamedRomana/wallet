@@ -40,8 +40,18 @@ class AppCubit extends Cubit<AppState> {
     Goals(),
   ];
 
+  /// Which sub-tab (income/expense/transfer) the Add screen should open on.
+  int addInitialTab = 0;
+
   void changebottomNavIndex(int index) {
     bottomNavIndex = index;
+    emit(BottomNavChanged());
+  }
+
+  /// Open the Add screen on a specific sub-tab (0=income, 1=expense, 2=transfer).
+  void openAdd(int tab) {
+    addInitialTab = tab;
+    bottomNavIndex = 2;
     emit(BottomNavChanged());
   }
 

@@ -1,252 +1,150 @@
-// ignore_for_file: deprecated_member_use
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../core/cache/cache_helper.dart';
+import '../../../../../core/data/models/category_model.dart';
+import '../../../../../core/service/cubit/app_cubit.dart';
+import '../../../../../core/theme/app_theme.dart';
+import '../../../../../core/utils/money.dart';
 import '../../../../../core/widgets/app_text.dart';
+import '../../../../../core/widgets/section_card.dart';
+import '../../../../../core/widgets/section_header.dart';
 import '../../../../../gen/fonts.gen.dart';
+import '../../../../../generated/locale_keys.g.dart';
 
-class SpendingCategory extends StatefulWidget {
-  const SpendingCategory({super.key});
-
-  @override
-  State<SpendingCategory> createState() => _SpendingCategoryState();
-}
-
-class _SpendingCategoryState extends State<SpendingCategory>
-    with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late AnimationController _pieController;
-
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
-
-    _pieController = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..forward();
-
-    _fadeAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.2),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
-    _scaleAnimation = Tween<double>(
-      begin: 0.9,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _pieController.dispose();
-    super.dispose();
-  }
+class SpendingByCategory extends StatelessWidget {
+  const SpendingByCategory({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: Listenable.merge([_controller, _pieController]),
-      builder: (context, child) {
-        return FadeTransition(
-          opacity: _fadeAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
-            child: Transform.scale(
-              scale: _scaleAnimation.value,
-              child: Container(
-                width: 361.w,
-                margin: EdgeInsets.symmetric(horizontal: 16.w),
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 25.h),
-                decoration: BoxDecoration(
-                  color: CacheHelper.getDarkMode()
-                      ? Color(0xff1E2939)
-                      : Colors.white,
-                  borderRadius: BorderRadius.circular(20.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.12),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
+    final cubit = AppCubit.get(context);
+    final breakdown = cubit.categoryBreakdown();
+    final total = breakdown.fold<double>(0, (s, e) => s + e.value);
+
+    return SectionCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(title: LocaleKeys.spending_by_category.tr()),
+          SizedBox(height: 16.h),
+          if (breakdown.isEmpty)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.h),
+              child: Center(
+                child: AppText(
+                  text: LocaleKeys.no_data.tr(),
+                  color: context.palette.textSecondary,
+                  size: 14.sp,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// HEADER
-                    Row(
-                      children: [
-                        AppText(
-                          text: 'Spending by Category',
-                          size: 18.sp,
-                          color: CacheHelper.getDarkMode()
-                              ? Colors.white
-                              : Colors.black,
-                          fontWeight: FontWeight.w700,
-                          family: FontFamily.bahijJannaBold,
-                        ),
-                        const Spacer(),
-                        AppText(
-                          text: 'See All',
-                          size: 14.sp,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 20.h),
-
-                    Row(
-                      children: [
-                        /// 🟣 PIE CHART ANIMATED
-                        SizedBox(
-                          width: 140.w,
-                          height: 140.w,
-                          child: PieChart(
-                            PieChartData(
-                              startDegreeOffset: -90,
-                              centerSpaceRadius: 40.r,
-                              sectionsSpace: 3,
-
-                              /// 🔥 animation
-                              sections: [
-                                _buildSection(
-                                  CacheHelper.getDarkMode()
-                                      ? Color(0xff21378E)
-                                      : Colors.blue,
-                                  25,
-                                ),
-                                _buildSection(Colors.red, 25),
-                                _buildSection(Colors.orange, 25),
-                                _buildSection(Colors.pink, 25),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        const Spacer(),
-
-                        /// 🟣 LIST (stagger animation)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildItem(
-                              delay: 0,
-                              color: CacheHelper.getDarkMode()
-                                  ? Color(0xff21378E)
-                                  : Colors.blue,
-                              title: 'Food & Drinks',
-                              value: '450 \$',
-                            ),
-                            _buildItem(
-                              delay: 0.1,
-                              color: Colors.red,
-                              title: 'Entertainment',
-                              value: '450 \$',
-                            ),
-                            _buildItem(
-                              delay: 0.2,
-                              color: Colors.orange,
-                              title: 'Transportation',
-                              value: '450 \$',
-                            ),
-                            _buildItem(
-                              delay: 0.3,
-                              color: Colors.pink,
-                              title: 'Shopping',
-                              value: '450 \$',
-                            ),
+              ),
+            )
+          else
+            Row(
+              children: [
+                SizedBox(
+                  width: 120.w,
+                  height: 120.w,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      PieChart(
+                        PieChartData(
+                          sectionsSpace: 2,
+                          centerSpaceRadius: 34.r,
+                          sections: [
+                            for (final e in breakdown)
+                              PieChartSectionData(
+                                value: e.value,
+                                color: e.key.color,
+                                radius: 22.r,
+                                showTitle: false,
+                              ),
                           ],
                         ),
-                      ],
-                    ),
-                  ],
+                        duration: const Duration(milliseconds: 600),
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppText(
+                            text: LocaleKeys.spent.tr(),
+                            size: 10.sp,
+                            color: context.palette.textSecondary,
+                          ),
+                          AppText(
+                            text: Money.compact(total),
+                            size: 13.sp,
+                            fontWeight: FontWeight.w700,
+                            family: FontFamily.bahijJannaBold,
+                            color: context.palette.textPrimary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: Column(
+                    children: [
+                      for (final e in breakdown.take(4))
+                        _CategoryRow(
+                          category: e.key,
+                          amount: e.value,
+                          percent: total <= 0 ? 0 : e.value / total,
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CategoryRow extends StatelessWidget {
+  final TxCategory category;
+  final double amount;
+  final double percent;
+
+  const _CategoryRow({
+    required this.category,
+    required this.amount,
+    required this.percent,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10.h),
+      child: Row(
+        children: [
+          Container(
+            width: 9.w,
+            height: 9.w,
+            decoration: BoxDecoration(
+              color: category.color,
+              shape: BoxShape.circle,
             ),
           ),
-        );
-      },
-    );
-  }
-
-  /// 🔥 PIE SECTION ANIMATION
-  PieChartSectionData _buildSection(Color color, double value) {
-    return PieChartSectionData(
-      value: value * _pieController.value,
-      color: color,
-      radius: 18.r,
-      showTitle: false,
-    );
-  }
-
-  /// 🔥 LIST ITEM ANIMATION
-  Widget _buildItem({
-    required double delay,
-    required Color color,
-    required String title,
-    required String value,
-  }) {
-    final animation = CurvedAnimation(
-      parent: _controller,
-      curve: Interval(delay, 1, curve: Curves.easeOut),
-    );
-
-    return FadeTransition(
-      opacity: animation,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0.2, 0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 10.h),
-          child: Row(
-            children: [
-              Container(
-                height: 10.w,
-                width: 10.w,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-              ),
-              SizedBox(width: 10.w),
-              AppText(
-                text: title,
-                size: 14.sp,
-                color: CacheHelper.getDarkMode() ? Colors.white : Colors.black,
-                fontWeight: FontWeight.w500,
-                end: 20.w,
-              ),
-              AppText(
-                text: value,
-                size: 14.sp,
-                color: CacheHelper.getDarkMode() ? Colors.white : Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-            ],
+          SizedBox(width: 8.w),
+          Expanded(
+            child: AppText(
+              text: category.nameKey.tr(),
+              size: 12.5.sp,
+              color: context.palette.textPrimary,
+            ),
           ),
-        ),
+          AppText(
+            text: '${(percent * 100).round()}%',
+            size: 12.sp,
+            fontWeight: FontWeight.w700,
+            color: context.palette.textSecondary,
+          ),
+        ],
       ),
     );
   }
