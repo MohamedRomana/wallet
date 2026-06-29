@@ -152,7 +152,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
     return ListView(
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 30.h),
+      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 130.h),
       children: [
         // Amount
         _FieldCard(
